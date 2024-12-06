@@ -1,45 +1,61 @@
-{% set name = "<PLEASE ADD PKG NAME>" %}
-{% set version = "<PLEASE ADD PKG VERSION>" %}
+{% set version = "0.5.4" %}  
+{% set sha256 = "4cb2f493947e235c51b62271a370b373282c105414ef7e36eba7624d658e18f4" %}
 
 package:
-  name: {{ name|lower }}
+  name: segysak
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: <sha256>
+  url: https://github.com/trhallam/segysak/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: {{ sha256 }}
 
 build:
   number: 0
-  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  skip: True  # [py<38]
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --disable-pip-version-check
+  script_env:
+   - SETUPTOOLS_SCM_PRETEND_VERSION={{ version }}
 
 requirements:
   host:
     - python
     - pip
+    - hatchling
+    - hatch-vcs
   run:
     - python
-
-test:
-  imports:
-    - {{ name.replace('-', '.') }}
-  requires:
-    - pip
-  commands:
-    - pip check
+    - numpy >=1.20
+    - pandas
+    - matplotlib
+    - segyio
+    - xarray
+    - dask
+    - distributed
+    - tqdm
+    - scipy !=1.10.0
+    - click
+    - h5netcdf
+    - addict
+    - more-itertools >=8.0
+    - typing-extensions
+    - loguru
 
 about:
-  home: <PLEASE ADD HOME URL>
-  summary: <PLEASE ADD SUMMARY>
+  home: https://github.com/trhallam/segysak
+  license: MIT
+  license_file: LICENSE
+  summary: "A library for reading, writing, and processing SEG-Y seismic data."
   description: |
-    <PLEASE ADD DESCRIPTION>
-  license: <PLEASE ADD LICENSE>
-  license_family: <PLEASE ADD LICENSE_FAMILY>
-  license_file: <PLEASE_ADD_LICENSE_FILE>
-  dev_url: <PLEASE ADD DEV URL>
-  doc_url: <PLEASE ADD DOC URL>
+    Segysak is a Python library that simplifies reading, writing, and processing SEG-Y seismic files, 
+    with a focus on convenience and performance.
+  doc_url: https://trhallam.github.io/segysak/latest/
 
 extra:
-  recipe-maintainers:
-    - Jrice1317
+  skip-lints:
+    - missing_source
+    - avoid_noarch
+
+  services:
+    recipe-maintainers:
+       - bkreider
+    comment: "https://anaconda.zendesk.com/agent/tickets/49247"
+
