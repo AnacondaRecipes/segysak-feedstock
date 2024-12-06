@@ -39,21 +39,30 @@ requirements:
     - typing-extensions
     - loguru
 
+test:
+  requires:
+    - pip
+  commands:
+    - pip check
+    - segysak --help
+
+  imports:
+    - segysak
+    - segyio.segy
+
 about:
   home: https://github.com/trhallam/segysak
-  license: MIT
+  license: GPL-3.0
+  license_family: GPL3
   license_file: LICENSE
   summary: "A library for reading, writing, and processing SEG-Y seismic data."
   description: |
     Segysak is a Python library that simplifies reading, writing, and processing SEG-Y seismic files, 
     with a focus on convenience and performance.
+  dev_url: https://github.com/trhallam/segysak/tree/main
   doc_url: https://trhallam.github.io/segysak/latest/
 
 extra:
-  skip-lints:
-    - missing_source
-    - avoid_noarch
-
   services:
     recipe-maintainers:
        - bkreider
