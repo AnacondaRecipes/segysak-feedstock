@@ -15,7 +15,7 @@ build:
   script_env:
    - SETUPTOOLS_SCM_PRETEND_VERSION={{ version }}
   entry_points:
-   - segysak = "segysak._cli:cli"
+   - segysak = segysak._cli:cli
 
 requirements:
   host:
